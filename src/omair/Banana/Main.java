@@ -17,7 +17,7 @@ public class Main {
     // main
     public static void main(String args[]) throws LoginException
     {
-        JDA jda = JDABuilder.createDefault("Njk4MzIwOTA5NzIyOTc2MzU4.XpE0fg.YbVL-Om_UF0BWLL4rDSXl5CiYRw").build();	# place private bot key in string
+        JDA jda = JDABuilder.createDefault("").build();	# place private bot key in string
         jda.getPresence().setActivity(Activity.playing("Currently peeling myself"));
         jda.getPresence().setStatus(OnlineStatus.ONLINE);
 
