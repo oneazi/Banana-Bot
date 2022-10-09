@@ -2,14 +2,14 @@
 package omair.Banana.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import omair.Banana.Main;
 
 import java.util.Random;
 
 public class RPS extends ListenerAdapter {
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event)
+    public void onMessageReceived(MessageReceivedEvent event)
     {
         // prevent message loops
         if (event.getAuthor().isBot()) return;
@@ -25,7 +25,7 @@ public class RPS extends ListenerAdapter {
                 syntaxError.setColor(0xFF4D4D);
                 syntaxError.setTitle("🚫 Missing Argument");
                 syntaxError.setDescription("The `type` argument is required.\n\nUsage: `!rps <type>`");
-                event.getChannel().sendMessage(syntaxError.build()).queue();
+                event.getChannel().sendMessageEmbeds(syntaxError.build()).queue();
                 syntaxError.clear();
             }
             else
@@ -40,7 +40,7 @@ public class RPS extends ListenerAdapter {
     }
 
     // this method implements the rock paper scissors game
-    private void playRPS(String choice, String name, GuildMessageReceivedEvent event, EmbedBuilder builder)
+    private void playRPS(String choice, String name, MessageReceivedEvent event, EmbedBuilder builder)
     {
         int playerChoice = 0;
         int computerChoice = 0;
@@ -60,21 +60,21 @@ public class RPS extends ListenerAdapter {
             {
                 builder.setDescription(name + " threw " + choice + " 🗻\nBanana threw rock 🗻\nIt's a tie!");
                 builder.setColor(0x282828);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else if(computerChoice == 2)
             {
                 builder.setDescription(name + " threw " + choice + " 🗻\nBanana threw paper 📜\nBanana wins 😜");
                 builder.setColor(0xFF4D4D);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else if(computerChoice == 3)
             {
                 builder.setDescription(name + " threw " + choice + " 🗻\nBanana threw scissors ✂\nYou win!");
                 builder.setColor(0x00EA47);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
         }
@@ -84,21 +84,21 @@ public class RPS extends ListenerAdapter {
             {
                 builder.setDescription(name + " threw " + choice + " 📜\nBanana threw rock 🗻\nYou win!");
                 builder.setColor(0x00EA47);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else if(computerChoice == 2)
             {
                 builder.setDescription(name + " threw " + choice + " 📜\nBanana threw paper 📜\nIt's a tie!");
                 builder.setColor(0x282828);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else if(computerChoice == 3)
             {
                 builder.setDescription(name + " threw " + choice + " 📜\nBanana threw scissors ✂\nBanana wins 😜");
                 builder.setColor(0xFF4D4D);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
         }
@@ -108,21 +108,21 @@ public class RPS extends ListenerAdapter {
             {
                 builder.setDescription(name + " threw " + choice + " ✂\nBanana threw rock 🗻\nBanana wins 😜");
                 builder.setColor(0xFF4D4D);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else if(computerChoice == 2)
             {
                 builder.setDescription(name + " threw " + choice + " ✂\nBanana threw paper 📜\nYou win!");
                 builder.setColor(0x00EA47);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else if(computerChoice == 3)
             {
                 builder.setDescription(name + " threw " + choice + " ✂\nBanana threw scissors ✂\nIt's a tie!");
                 builder.setColor(0x282828);
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
         }

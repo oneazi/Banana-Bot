@@ -3,7 +3,7 @@
 package omair.Banana.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import omair.Banana.Main;
 
@@ -11,7 +11,7 @@ import java.util.Random;
 
 
 public class OddEven extends ListenerAdapter {
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event)
+    public void onMessageReceived(MessageReceivedEvent event)
     {
         if (event.getAuthor().isBot()) return;
 
@@ -28,7 +28,7 @@ public class OddEven extends ListenerAdapter {
                 syntaxError.setTitle("🚫 Missing Arguments");
                 syntaxError.setDescription("The `type` and `integer` arguments are required." +
                         "\n`type` should be `odd` or `even`\n\nUsage: `!oddeven <type> <integer>`");
-                event.getChannel().sendMessage(syntaxError.build()).queue();
+                event.getChannel().sendMessageEmbeds(syntaxError.build()).queue();
                 syntaxError.clear();
             }
 
@@ -39,7 +39,7 @@ public class OddEven extends ListenerAdapter {
                 syntaxError.setColor(0xFF4D4D);
                 syntaxError.setTitle("🚫 Missing Argument");
                 syntaxError.setDescription("The `integer` argument is required.\n\nUsage: `!oddeven <type> <integer>`");
-                event.getChannel().sendMessage(syntaxError.build()).queue();
+                event.getChannel().sendMessageEmbeds(syntaxError.build()).queue();
                 syntaxError.clear();
             }
 
@@ -74,7 +74,7 @@ public class OddEven extends ListenerAdapter {
                         oddEven.setDescription(num + " + " + compNum + " = " + sum + "\n"
                                 + sum + " is " + value + "\n\nYou Lost!");
                     }
-                    event.getChannel().sendMessage(oddEven.build()).queue();
+                    event.getChannel().sendMessageEmbeds(oddEven.build()).queue();
                     oddEven.clear();
                 }
             }

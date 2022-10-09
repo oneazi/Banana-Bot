@@ -3,11 +3,9 @@
 package omair.Banana.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.dv8tion.jda.api.entities.Member;
 import omair.Banana.Main;
-
 
 import java.util.Random;
 
@@ -26,7 +24,7 @@ public class Roast extends ListenerAdapter {
             "Why is it acceptable for you to be an idiot but not for me to point it out?",
             "Everyone brings happiness to a room. I do when I enter, you do when you leave.",};
 
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event)
+    public void onMessageReceived(MessageReceivedEvent event)
     {
         if (event.getAuthor().isBot()) return;
 
@@ -42,7 +40,7 @@ public class Roast extends ListenerAdapter {
                 syntaxError.setColor(0xFF4D4D);
                 syntaxError.setTitle("🚫 Missing Argument");
                 syntaxError.setDescription("The `member` argument is required.\n\nUsage: `!roast @<member>`");
-                event.getChannel().sendMessage(syntaxError.build()).queue();
+                event.getChannel().sendMessageEmbeds(syntaxError.build()).queue();
                 syntaxError.clear();
             }
             else
@@ -58,7 +56,7 @@ public class Roast extends ListenerAdapter {
                     syntaxError.setColor(0xFF4D4D);
                     syntaxError.setTitle("🚫 Missing Argument");
                     syntaxError.setDescription("Please refer to the `member` using their `@`\n\nUsage: `!roast @<member>`");
-                    event.getChannel().sendMessage(syntaxError.build()).queue();
+                    event.getChannel().sendMessageEmbeds(syntaxError.build()).queue();
                     syntaxError.clear();
                 }
             }

@@ -3,12 +3,14 @@
 package omair.Banana.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
-import net.dv8tion.jda.api.events.message.guild.react.GuildMessageReactionAddEvent;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import omair.Banana.Main;
 import omair.Banana.Objects.Card;
 
+import java.util.Objects;
 import java.util.Random;
 
 public class HighLow extends ListenerAdapter {
@@ -17,7 +19,10 @@ public class HighLow extends ListenerAdapter {
     private Card secondCard;
     private String user;
 
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event) {
+    private static final Emoji POINT_UP = Emoji.fromUnicode("U+261D");
+    private static final Emoji POINT_DOWN = Emoji.fromUnicode("U+1F447");
+
+    public void onMessageReceived(MessageReceivedEvent event) {
         if (event.getAuthor().isBot()) return;
 
         String[] args = event.getMessage().getContentRaw().split("\\s+");
@@ -43,21 +48,21 @@ public class HighLow extends ListenerAdapter {
             builder.setDescription("press ☝ to guess higher, press 👇 to guess lower");
             builder.addField("First Card", this.firstCard.toString(),false);
             builder.setColor(0x282828);
-            event.getChannel().sendMessage(builder.build()).queue(message -> {
-                message.addReaction("☝").queue();
-                message.addReaction("👇").queue();
+            event.getChannel().sendMessageEmbeds(builder.build()).queue(message -> {
+                message.addReaction(POINT_UP).queue();
+                message.addReaction(POINT_DOWN).queue();
             });
             builder.clear();
         }
     }
 
     // implements the second half of the game after the user chooses a reaction
-    public void onGuildMessageReactionAdd(GuildMessageReactionAddEvent event)
+    public void onMessageReactionAdd(MessageReactionAddEvent event)
     {
         EmbedBuilder builder = new EmbedBuilder();
 
-        if(event.getReactionEmote().getName().equals("☝") &&
-            !event.getMember().getUser().equals(event.getJDA().getSelfUser()))
+        if(event.getEmoji().equals(POINT_UP) &&
+            !Objects.requireNonNull(event.getMember()).getUser().equals(event.getJDA().getSelfUser()))
         {
             builder.setTitle("High-Low | " + this.user);
             builder.addField("First Card", this.firstCard.toString(),true);
@@ -81,7 +86,7 @@ public class HighLow extends ListenerAdapter {
                     builder.setColor(0x282828);
                     builder.setDescription("You broke even");
                 }
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else
@@ -91,8 +96,8 @@ public class HighLow extends ListenerAdapter {
         }
 
         // check if finger pointing down
-        else if(event.getReactionEmote().getName().equals("👇") &&
-                !event.getMember().getUser().equals(event.getJDA().getSelfUser()))
+        else if(event.getEmoji().equals(POINT_DOWN) &&
+                !Objects.requireNonNull(event.getMember()).getUser().equals(event.getJDA().getSelfUser()))
         {
             builder.setTitle("High-Low | " + this.user);
             builder.addField("First Card", this.firstCard.toString(),true);
@@ -115,7 +120,7 @@ public class HighLow extends ListenerAdapter {
                     builder.setColor(0x282828);
                     builder.setDescription("You broke even");
                 }
-                event.getChannel().sendMessage(builder.build()).queue();
+                event.getChannel().sendMessageEmbeds(builder.build()).queue();
                 builder.clear();
             }
             else

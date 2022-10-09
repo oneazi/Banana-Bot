@@ -3,14 +3,14 @@ package omair.Banana.Commands;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import omair.Banana.Main;
 
 import java.util.List;
 
 public class Clear extends ListenerAdapter {
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event)
+    public void onMessageReceived(MessageReceivedEvent event)
     {
         String[] args = event.getMessage().getContentRaw().split("\\s+");
 
@@ -23,7 +23,7 @@ public class Clear extends ListenerAdapter {
                 syntaxError.setColor(0xFF4D4D);
                 syntaxError.setTitle("🚫 Missing Argument");
                 syntaxError.setDescription("The `amount` argument is required.\n\nUsage: `!clear <amount>`");
-                event.getChannel().sendMessage(syntaxError.build()).queue();
+                event.getChannel().sendMessageEmbeds(syntaxError.build()).queue();
                 syntaxError.clear();
             }
             else
@@ -31,12 +31,12 @@ public class Clear extends ListenerAdapter {
                 try
                 {
                     List<Message> messages = event.getChannel().getHistory().retrievePast(Integer.parseInt(args[1])).complete();
-                    event.getChannel().deleteMessages(messages).queue();
+                    event.getChannel().purgeMessages(messages);
                     EmbedBuilder success = new EmbedBuilder();
                     success.setColor(0x00EA47);
                     success.setTitle("✅ Messages deleted");
                     success.setDescription("Successfully deleted " + args[1] + " messages!");
-                    event.getChannel().sendMessage(success.build()).queue();
+                    event.getChannel().sendMessageEmbeds(success.build()).queue();
                     success.clear();
                 }
                 catch(IllegalArgumentException e)
@@ -48,7 +48,7 @@ public class Clear extends ListenerAdapter {
                         wrongLength.setColor(0xFF4D4D);
                         wrongLength.setTitle("🚫 Too many messages selected");
                         wrongLength.setDescription("Only 1-100 messages can be deleted at once.");
-                        event.getChannel().sendMessage(wrongLength.build()).queue();
+                        event.getChannel().sendMessageEmbeds(wrongLength.build()).queue();
                         wrongLength.clear();
                     }
                     else
@@ -58,7 +58,7 @@ public class Clear extends ListenerAdapter {
                         tooOld.setColor(0xFF4D4D);
                         tooOld.setTitle("🚫 Messages Selected too old");
                         tooOld.setDescription("Messages more than 2 weeks old cannot be deleted in bulk.");
-                        event.getChannel().sendMessage(tooOld.build()).queue();
+                        event.getChannel().sendMessageEmbeds(tooOld.build()).queue();
                         tooOld.clear();
                     }
                 }

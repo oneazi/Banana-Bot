@@ -1,12 +1,12 @@
 // this class allows the user to check their ping to the server
 package omair.Banana.Commands;
 
-import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import omair.Banana.Main;
 
 public class Ping extends ListenerAdapter {
-    public void onGuildMessageReceived(GuildMessageReceivedEvent event)
+    public void onMessageReceived(MessageReceivedEvent event)
     {
         if (event.getAuthor().isBot()) return;
         String[] args = event.getMessage().getContentRaw().split("\\s+");
